@@ -3,17 +3,27 @@ import typewise_alert
 
 class TypewiseTest(unittest.TestCase):
   def test_infers_breach_as_per_limits(self):
-    self.assertTrue(typewise_alert.infer_breach(20, 50, 100) == 'TOO_LOW')
-    self.assertTrue(typewise_alert.infer_breach(50, 0, 40) == 'TOO_HIGH')
-    self.assertTrue(typewise_alert.infer_breach(20, 0, 40) == 'NORMAL')
+    self.assertTrue(typewise_alert.infer_breach(0, 0, 35) == 'NORMAL')
+    self.assertTrue(typewise_alert.infer_breach(35, 0, 35) == 'NORMAL')
+    self.assertTrue(typewise_alert.infer_breach(1, 0, 35) == 'NORMAL')
+    self.assertTrue(typewise_alert.infer_breach(34, 0, 35) == 'NORMAL')
+    self.assertTrue(typewise_alert.infer_breach(41, 0, 35) == 'TOO_HIGH')
+    self.assertTrue(typewise_alert.infer_breach(-1, 0, 35) == 'TOO_LOW')
 
 
   def test_get_temperature_breachlimits(self):
+    #test for breachlimits
     self.assertTrue(typewise_alert.limits.get_temperature_breachlimits('PASSIVE_COOLING')==(0,35))
     self.assertTrue(typewise_alert.limits.get_temperature_breachlimits('MED_ACTIVE_COOLING')==(0,40))
     self.assertTrue(typewise_alert.limits.get_temperature_breachlimits('HI_ACTIVE_COOLING')==(0,45))
-    self.assertTrue('HI_ACTIVE_COOLING' in dict(typewise_alert.limits.temperature_limits))
-    self.assertFalse('Invalid' in dict(typewise_alert.limits.temperature_limits))
+    self.assertFalse(typewise_alert.limits.get_temperature_breachlimits('PASSIVE_COOLING')[0]==-1)
+    self.assertTrue(typewise_alert.limits.get_temperature_breachlimits('MED_ACTIVE_COOLING')[0]==0)
+    self.assertFalse(typewise_alert.limits.get_temperature_breachlimits('MED_ACTIVE_COOLING')[1]==41)
+    self.assertFalse(typewise_alert.limits.get_temperature_breachlimits('HI_ACTIVE_COOLING')[1]==46)
+    self.assertFalse(typewise_alert.limits.get_temperature_breachlimits('PASSIVE_COOLING')[1]==36)
+    #test for cooling types
+    self.assertTrue('HI_ACTIVE_COOLING' in typewise_alert.limits.coolingType)
+    self.assertFalse('Invalid' in typewise_alert.limits.coolingType)
 
   def test_get_Alertaction(self):
    self.assertTrue(typewise_alert.action.get_Alertaction('TO_CONTROLLER','TOO_LOW')==0)
@@ -28,8 +38,6 @@ class TypewiseTest(unittest.TestCase):
    self.assertTrue(typewise_alert.action.send_to_email('TOO_LOW')[0]=="a.b@c.com")
    self.assertFalse(typewise_alert.action.send_to_email('TOO_HIGH')[0]=="x.y@z.com")
    self.assertTrue(typewise_alert.action.send_to_email('TOO_HIGH')[1]=="To: a.b@c.com"+'\n'+'Hi, the temperature is too high')
-   self.assertTrue(typewise_alert.action.send_to_email('Invalid')[1]==None)
-
 
   def test_classify_temperature_breach(self):
     self.assertEqual(typewise_alert.check_and_alert('TO_CONTROLLER','HI_ACTIVE_COOLING',50),0)
@@ -41,6 +49,6 @@ class TypewiseTest(unittest.TestCase):
     self.assertEqual(typewise_alert.action.send_to_controller('TOO_LOW')[1],65261)
 
 
-#if __name__ == '__main__':
+#if __name__ == '__main__': 
 unittest.main()
   

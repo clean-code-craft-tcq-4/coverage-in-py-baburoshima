@@ -16,11 +16,6 @@ def send_to_controller(breachType):
   return message, definitons.controllerHeader
 
 def send_to_email(breachType):
-  EmailMessage = None
-  if breachType == 'TOO_LOW':
-    EmailMessage = f'To: {definitons.recepient}' + '\n' + 'Hi, the temperature is too low'
-    print(EmailMessage)
-  elif breachType == 'TOO_HIGH':
-    EmailMessage = f'To: {definitons.recepient}' + '\n' + 'Hi, the temperature is too high'
-    print(EmailMessage)
+  EmailMessage = f'To: {definitons.recepient}' + '\n' + definitons.AlertMessage[breachType]
+  print(EmailMessage)
   return definitons.recepient , EmailMessage
