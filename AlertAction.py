@@ -11,11 +11,17 @@ def get_Alertaction(alertTarget, breachType):
   return alertAction
 
 def send_to_controller(breachType):
-  message = f'{definitons.controllerHeader}, {breachType}'
-  print(message)
-  return message, definitons.controllerHeader
+  if breachType in definitons.breachType:
+    message = f'{definitons.controllerHeader}, {breachType}'
+    print(message)
+    return definitons.controllerHeader , message
+  else:
+    return None
 
 def send_to_email(breachType):
-  EmailMessage = f'To: {definitons.recepient}' + '\n' + definitons.AlertMessage[breachType]
-  print(EmailMessage)
-  return definitons.recepient , EmailMessage
+  if breachType in definitons.breachType:
+    EmailMessage = f'To: {definitons.recepient}' + '\n' + definitons.AlertMessage[breachType]
+    print(EmailMessage)
+    return definitons.recepient , EmailMessage
+  else:
+    return None

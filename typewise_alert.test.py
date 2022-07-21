@@ -34,20 +34,23 @@ class TypewiseTest(unittest.TestCase):
   
   def test_send_to_email(self):
    self.assertFalse('Invalid' in typewise_alert.action.definitons.breachType)
-   self.assertEqual(typewise_alert.action.send_to_email('TOO_LOW')[1],"To: a.b@c.com"+'\n'+'Hi, the temperature is too low')
    self.assertTrue(typewise_alert.action.send_to_email('TOO_LOW')[0]=="a.b@c.com")
    self.assertFalse(typewise_alert.action.send_to_email('TOO_HIGH')[0]=="x.y@z.com")
+   self.assertEqual(typewise_alert.action.send_to_email('TOO_LOW')[1],"To: a.b@c.com"+'\n'+'Hi, the temperature is too low')
    self.assertTrue(typewise_alert.action.send_to_email('TOO_HIGH')[1]=="To: a.b@c.com"+'\n'+'Hi, the temperature is too high')
+   self.assertTrue(typewise_alert.action.send_to_email('Invalid')==None)
 
   def test_classify_temperature_breach(self):
     self.assertEqual(typewise_alert.check_and_alert('TO_CONTROLLER','HI_ACTIVE_COOLING',50),0)
     self.assertEqual(typewise_alert.check_and_alert('TO_EMAIL','PASSIVE_COOLING',41),1)
-    self.assertEqual(typewise_alert.check_and_alert('Invalid','PASSIVE_COOLING',30),None)
+    self.assertEqual(typewise_alert.check_and_alert('Invalid','MED_ACTIVE_COOLING',30),None)
 
   def test_send_to_controller(self):
-    self.assertEqual(typewise_alert.action.send_to_controller('TOO_HIGH')[0],'65261, TOO_HIGH')
-    self.assertEqual(typewise_alert.action.send_to_controller('TOO_LOW')[0],'65261, TOO_LOW')
-    self.assertEqual(typewise_alert.action.send_to_controller('TOO_LOW')[1],65261)
+    self.assertEqual(typewise_alert.action.send_to_controller('TOO_HIGH')[1],'65261, TOO_HIGH')
+    self.assertEqual(typewise_alert.action.send_to_controller('TOO_LOW')[1],'65261, TOO_LOW')
+    self.assertEqual(typewise_alert.action.send_to_controller('TOO_LOW')[0],65261)
+    self.assertEqual(typewise_alert.action.send_to_controller('Invalid'),None)
+    self.assertFalse(typewise_alert.action.send_to_controller('TOO_HIGH')[0]==65260)
 
 
 if __name__ == '__main__': 
