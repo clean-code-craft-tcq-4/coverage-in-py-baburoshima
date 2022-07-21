@@ -49,6 +49,6 @@ class TypewiseTest(unittest.TestCase):
     self.assertEqual(typewise_alert.action.send_to_controller('TOO_LOW')[1],65261)
 
 
-#if __name__ == '__main__': 
-unittest.main()
+if __name__ == '__main__': 
+  unittest.main() # pragma: no cover
   
