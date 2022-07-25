@@ -28,9 +28,7 @@ class TypewiseTest(unittest.TestCase):
 
   def test_get_Alertaction(self):
    self.assertTrue(typewise_alert.action.get_Alertaction('TO_CONTROLLER','TOO_LOW')==0)
-   self.assertTrue(typewise_alert.action.get_Alertaction('TO_EMAIL','TOO_LOW')==1)
-   self.assertTrue(typewise_alert.action.get_Alertaction('TO_EMAIL','NORMAL')==None)
-   self.assertTrue(typewise_alert.action.get_Alertaction('TO_EMAIL','Invalid')==None)
+   self.assertTrue(typewise_alert.action.get_Alertaction('TO_EMAIL','TOO_HIGH')==1)
    self.assertFalse('Invalid' in dict(typewise_alert.action.definitons.targetType))
    self.assertEqual(typewise_alert.action.get_Alertaction('Invalid','TOO_LOW'),None)
   
