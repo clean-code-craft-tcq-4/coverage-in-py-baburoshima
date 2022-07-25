@@ -10,13 +10,19 @@ def infer_breach(value, lowerLimit, upperLimit):
 
 
 def classify_temperature_breach(coolingType, temperatureInC):
-  lowerLimit, upperLimit = limits.get_temperature_breachlimits(coolingType)
-  return infer_breach(temperatureInC, lowerLimit, upperLimit)
+  if coolingType in limits.coolingType:
+    lowerLimit, upperLimit = limits.get_temperature_breachlimits(coolingType)
+    return infer_breach(temperatureInC, lowerLimit, upperLimit)
+  else:
+    return None
 
 
 def check_and_alert(alertTarget, coolingType, temperatureInC):
-  breachType =\
+  if coolingType in limits.coolingType:
+    breachType =\
     classify_temperature_breach(coolingType, temperatureInC)
-  Action = action.get_Alertaction(alertTarget,breachType)
-  return Action
+    Action = action.get_Alertaction(alertTarget,breachType)
+    return Action
+  else:
+    return None
 

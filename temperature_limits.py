@@ -4,5 +4,8 @@ temperature_limits = {"PASSIVE_COOLING":(0,35),
                     "HI_ACTIVE_COOLING":(0,45),
                     "MED_ACTIVE_COOLING":(0,40),}
 
-def get_temperature_breachlimits(coolingType):
-  return temperature_limits[coolingType]
+def get_temperature_breachlimits(coolingTypeInput):
+  if coolingTypeInput in coolingType:
+    return temperature_limits[coolingTypeInput]
+  else:
+    return None
