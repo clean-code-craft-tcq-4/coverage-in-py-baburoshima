@@ -8,8 +8,6 @@ def get_Alertaction(alertTarget, breachType):
   elif alertTarget == 'TO_EMAIL':
       send_to_email(breachType)
       alertAction = definitons.targetType[alertTarget]
-  elif breachType not in definitons.breachType:
-    alertAction = None
   return alertAction
 
 def send_to_controller(breachType):
