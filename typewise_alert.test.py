@@ -17,7 +17,7 @@ class TypewiseTest(unittest.TestCase):
     self.assertTrue(typewise_alert.limits.get_temperature_breachlimits('MED_ACTIVE_COOLING')==(0,40))
     self.assertTrue(typewise_alert.limits.get_temperature_breachlimits('HI_ACTIVE_COOLING')==(0,45))
     self.assertFalse(typewise_alert.limits.get_temperature_breachlimits('PASSIVE_COOLING')[0]==-1)
-    self.assertTrue(typewise_alert.limits.get_temperature_breachlimits('MED_ACTIVE_COOLING')[0]==0)
+   # self.assertTrue(typewise_alert.limits.get_temperature_breachlimits('MED_ACTIVE_COOLING')[0]==0) covered in line 17
     self.assertFalse(typewise_alert.limits.get_temperature_breachlimits('MED_ACTIVE_COOLING')[1]==41)
     self.assertFalse(typewise_alert.limits.get_temperature_breachlimits('HI_ACTIVE_COOLING')[1]==46)
     self.assertFalse(typewise_alert.limits.get_temperature_breachlimits('PASSIVE_COOLING')[1]==36)
